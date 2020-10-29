@@ -25,14 +25,10 @@ class StartWindow:
         self.app.geometry("300x200")
         self.label = Label(self.app, text="Welcome to App")
         self.label.place(x=95, y=40)
-        self.login = Button(self.app, text="Login",pady=5,padx=30, command = (login and  x = True))
+        self.login = Button(self.app, text="Login",pady=5,padx=30, command = login)
         self.login.place(x=100, y=100)
         self.register = Button(self.app, text="Register",pady=5, padx=20,command=register)
         self.register.place(x=100, y=150)
-        global x
-        x = False
-        while x == True:
-            quit
         
     def run(self):
         self.app.mainloop()
