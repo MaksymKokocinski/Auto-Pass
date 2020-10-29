@@ -40,18 +40,23 @@ class Login:
         try:
             if (db.validateData(data, inputData)):
                 messagebox.showinfo ("Successful", "Login was Successful")
+                self.quit()
                 mainwindow()
+                
                 
             else:
                 messagebox.showinfo ("Unsuccessful", "Login was Unsuccessful")
+                self.quit()
         except IndexError:
                 messagebox.showinfo ("Unsuccessful", "Login was Unsuccessful")
+                self.quit()
 
     #petla do uruchamiania sie loginu
     def run(self):
         self.loginWindow.mainloop()
     
-
+    def quit(self):
+        self.loginWindow.destroy() 
 
 def mainwindow():
     mainwindowTk = MainWindow()

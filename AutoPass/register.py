@@ -40,6 +40,9 @@ class Register:
     def run(self):
         self.registerWindow.mainloop()
 
+    def quit(self):
+        self.registerWindow.destroy()
+
     #funckja dodawania nowych uzytkownikow
     def add(self):
         data = (self.username,)
@@ -49,10 +52,12 @@ class Register:
             data = (self.username, self.hashed)
             db.insertData(data)
             messagebox.showinfo("Successful", "Username Was Added")
+            self.quit()
             mainwindow()
             
         else:
             messagebox.showwarning("Warning", "Username already Exists")
+            self.quit()
 
 def mainwindow():
     mainwindowTk = MainWindow()
