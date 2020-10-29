@@ -43,7 +43,7 @@ class Database:
 
         if rows == []:
             return 1
-            return 0
+            #return 0
     def validateData(self, data, inputData):
         """Method for Validating Data Table in Database"""
         print(data)
