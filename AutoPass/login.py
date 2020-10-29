@@ -1,13 +1,15 @@
+import bcrypt
 from tkinter import Button, Label, Tk, Entry, StringVar, FLAT
 from tkinter import messagebox
-import bcrypt
 from database import Database
+from mainwindow import MainWindow
 
 db = Database()
 db.createTable()
 
 class Login:
     def __init__(self):
+
         #Wyglad okienka logowania sie
         self.loginWindow = Tk()
         self.loginWindow.title("Login with Python")
@@ -38,6 +40,8 @@ class Login:
         try:
             if (db.validateData(data, inputData)):
                 messagebox.showinfo ("Successful", "Login was Successful")
+                mainwindow()
+                
             else:
                 messagebox.showinfo ("Unsuccessful", "Login was Unsuccessful")
         except IndexError:
@@ -46,12 +50,12 @@ class Login:
     #petla do uruchamiania sie loginu
     def run(self):
         self.loginWindow.mainloop()
+    
 
 
-
+def mainwindow():
+    mainwindowTk = MainWindow()
+    mainwindowTk.run()
 
         
-        
-        
-
-        
+     

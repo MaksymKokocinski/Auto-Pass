@@ -1,4 +1,3 @@
-
 import sys
 from tkinter import Button, Label, Tk, Listbox
 from tkinter import messagebox
@@ -44,6 +43,7 @@ def logout():
     
 
 
-#testowe otwieranie glownego okna
+"""#testowe otwieranie glownego okna
 mw = MainWindow()
 mw.run()
+"""

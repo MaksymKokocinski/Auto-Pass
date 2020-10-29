@@ -1,7 +1,8 @@
+import bcrypt
 from tkinter import Button, Label, Tk, Entry, StringVar, FLAT
 from tkinter import messagebox
-import bcrypt
 from database import Database
+from mainwindow import MainWindow
 
 db = Database()
 db.createTable()
@@ -48,7 +49,11 @@ class Register:
             data = (self.username, self.hashed)
             db.insertData(data)
             messagebox.showinfo("Successful", "Username Was Added")
+            mainwindow()
+            
         else:
             messagebox.showwarning("Warning", "Username already Exists")
 
-        
+def mainwindow():
+    mainwindowTk = MainWindow()
+    mainwindowTk.run()

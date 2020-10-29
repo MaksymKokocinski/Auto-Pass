@@ -14,8 +14,7 @@ class Database:
         """
         Method for Creating Table in Database
         """
-        create_table = """
-            CREATE TABLE IF NOT EXISTS cred(
+        create_table = """CREATE TABLE IF NOT EXISTS cred(
             id Integer PRIMARY KEY AUTOINCREMENT,
             username TEXT NOT NULL,
             password TEXT NOT NULL
@@ -27,30 +26,25 @@ class Database:
     def insertData(self,data):
         """Method for inserting Data in Table in Database"""
 
-        insert_data= """
-        INSERT INTO cred(username, password)
+        insert_data= """INSERT INTO cred(username, password)
         VALUES(?, ?);
         """
         self.curr.execute(insert_data, data)
         self.conn.commit()
     def searchData(self, data):
         """Method for Searching Data in Table in Database"""
-        search_data ="""
-        SELECT * FROM cred WHERE username = (?);
-        """
+        search_data ="""SELECT * FROM cred WHERE username = (?);"""
         self.curr.execute(search_data, data)
         rows = self.curr.fetchall()
 
         if rows == []:
             return 1
-            #return 0
+        return 0
     def validateData(self, data, inputData):
         """Method for Validating Data Table in Database"""
-        print(data)
-        print(inputData)
-        validate_data = """
-        SELECT * FROM cred WHERE username = (?);
-        """
+        print("data:",data)
+        print("inputdata:",inputData)
+        validate_data = """SELECT * FROM cred WHERE username = (?);"""
         self.curr.execute(validate_data, data)
         row = self.curr.fetchall()
         if row[0][1] == inputData[0]:
