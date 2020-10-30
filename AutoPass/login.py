@@ -6,7 +6,7 @@ from mainwindow import MainWindow
 
 db = Database()
 db.createTable()
-
+#dodac info gdzies i guzik cofnij
 class Login:
     def __init__(self):
 
@@ -43,7 +43,6 @@ class Login:
                 self.quit()
                 mainwindow()
                 
-                
             else:
                 messagebox.showinfo ("Unsuccessful", "Login was Unsuccessful")
                 self.quit()
@@ -51,13 +50,13 @@ class Login:
                 messagebox.showinfo ("Unsuccessful", "Login was Unsuccessful")
                 self.quit()
 
-    #petla do uruchamiania sie loginu
+    #uruchamianie okienka loginu
     def run(self):
         self.loginWindow.mainloop()
-    
+    #zamykanie okienka loginu
     def quit(self):
         self.loginWindow.destroy() 
-
+#otwieranie nastepnego okna
 def mainwindow():
     mainwindowTk = MainWindow()
     mainwindowTk.run()

@@ -1,10 +1,13 @@
 import sys
 from tkinter import Button, Label, Tk, Listbox
 from tkinter import messagebox
-
+"""
+Stworzyc generator i sprawic zeby hasla sie zapisywale, ogarnac co nie dziala i baze danych
+"""
 
 class MainWindow():
     def __init__(self):
+        #wyglad glownego okna
         self.mw = Tk()
         self.mw.title("Main window")
         self.mw.geometry("300x400")
@@ -27,13 +30,13 @@ class MainWindow():
         
         self.register = Button(self.mw, text="Logout",pady=5, padx=30,command=logout)
         self.register.place(x=100, y=300)
-
+    #odpalanie okienka
     def run(self):
         self.mw.mainloop()
-    
+#funkcja w ktorej bd generowane nowe haslo
 def newpass():
     messagebox.showinfo("NewPassword","New password will be generated here")
-
+#zamykanie programu
 def logout():
     messagebox.showinfo("Logging out","Logged out")
     sys.exit()

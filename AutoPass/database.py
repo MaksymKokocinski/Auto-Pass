@@ -1,6 +1,6 @@
 import sqlite3
 import bcrypt
-
+#ogarnac ten syf
 class Database:
     def __init__(self):
         try:

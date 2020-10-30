@@ -7,7 +7,7 @@ from mainwindow import MainWindow
 db = Database()
 db.createTable()
 
-
+#dodac info gdzies i guzik cofnij
 
 class Register:
     def __init__(self):
@@ -39,7 +39,7 @@ class Register:
     #odpalanie sie rejestrowania
     def run(self):
         self.registerWindow.mainloop()
-
+    #zamykanie okna rejestracji
     def quit(self):
         self.registerWindow.destroy()
 
@@ -59,6 +59,7 @@ class Register:
             messagebox.showwarning("Warning", "Username already Exists")
             self.quit()
 
+#otwieranie nastepnego okna
 def mainwindow():
     mainwindowTk = MainWindow()
     mainwindowTk.run()
