@@ -1,6 +1,5 @@
 import bcrypt
-from tkinter import Button, Label, Tk, Entry, StringVar, FLAT
-from tkinter import messagebox
+from tkinter import Button, Label, Tk, Entry, StringVar, FLAT, messagebox
 from database import Database
 from mainwindow import MainWindow
 
@@ -45,10 +44,8 @@ class Login:
                 
             else:
                 messagebox.showinfo ("Unsuccessful", "Login was Unsuccessful")
-                self.quit()
         except IndexError:
-                messagebox.showinfo ("Unsuccessful", "Login was Unsuccessful")
-                self.quit()
+            messagebox.showinfo ("Unsuccessful", "Login was Unsuccessful")
 
     #uruchamianie okienka loginu
     def run(self):
@@ -56,6 +53,7 @@ class Login:
     #zamykanie okienka loginu
     def quit(self):
         self.loginWindow.destroy() 
+        
 #otwieranie nastepnego okna
 def mainwindow():
     mainwindowTk = MainWindow()
