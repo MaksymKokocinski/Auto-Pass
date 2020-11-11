@@ -1,6 +1,5 @@
 import bcrypt
-from tkinter import Button, Label, Tk, Entry, StringVar, FLAT
-from tkinter import messagebox
+from tkinter import Button, Label, Tk, Entry, StringVar, FLAT, messagebox
 from database import Database
 from mainwindow import MainWindow
 
@@ -18,23 +17,30 @@ class Register:
         self.label = Label(self.registerWindow, text = "Register")
         self.label.place(x=95, y=40)
 
-        # zmienne narazie potrzebne
-        self.usernameS = StringVar()
-        self.passwordS = StringVar()
-        self.usernameE = Entry (
-            self.registerWindow, relief=FLAT, textvariable=self.usernameS)
-        self.usernameE.place(x=70, y=80)
-        self.passwordE = Entry (
-            self.registerWindow, show="*", relief=FLAT, textvariable=self.passwordS)
-        self.passwordE.place(x=70, y=120)
-        self.submit = Button(self.registerWindow,text ="Submit", pady =5, padx = 20, command=self.add)
+        # zmienne puste potrzebne
+        global usernameS
+        global passwordS
+        usernameS = StringVar()
+        passwordS = StringVar()
+        #pola do pisania i guzik do wyslania zmiennych
+        usernameE = Entry ( self.registerWindow, relief=FLAT, textvariable= usernameS)
+        usernameE.place(x=70, y=80)
+        passwordE = Entry ( self.registerWindow, show="*", relief=FLAT, textvariable= passwordS)
+        passwordE.place(x=70, y=120)
+        self.submit = Button(self.registerWindow,text ="Submit", pady =5, padx = 20, command=self.commit)
         self.submit.place(x=100, y=150)
 
-        #faktyczne zmienne
-        self.username = self.usernameS.get()
-        self.password = self.passwordS.get()
-        self.salt = bcrypt.gensalt()
-        self.hashed = bcrypt.hashpw(self.password.encode(), self.salt)
+    def commit(self):
+        #zbieranie zmiennych po nacisnieciu guzika i wysylanie ich do bazy danych
+        global username
+        global password
+        username = usernameS.get()
+        password = passwordS.get()
+        #print(username,password)
+        salt = bcrypt.gensalt()
+        global hashed
+        hashed = bcrypt.hashpw(password.encode(), salt)
+        self.add()
 
     #odpalanie sie rejestrowania
     def run(self):
@@ -43,23 +49,23 @@ class Register:
     def quit(self):
         self.registerWindow.destroy()
 
-    #funckja dodawania nowych uzytkownikow
+    #funckja dodawania nowych uzytkownikow do bazy danych
     def add(self):
-        data = (self.username,)
+        data = (username,)
         result = db.searchData(data)
-        print(result)
         if result != 0:
-            data = (self.username, self.hashed)
+            data = (username,hashed)
             db.insertData(data)
             messagebox.showinfo("Successful", "Username Was Added")
             self.quit()
-            mainwindow()
-            
+            mainwindow()  
         else:
-            messagebox.showwarning("Warning", "Username already Exists")
-            self.quit()
+            messagebox.showwarning("Warning", "Username already Exists, try again")
 
 #otwieranie nastepnego okna
 def mainwindow():
     mainwindowTk = MainWindow()
     mainwindowTk.run()
+"""
+mw = Register()
+mw.run()"""
