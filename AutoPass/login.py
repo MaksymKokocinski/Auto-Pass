@@ -16,34 +16,38 @@ class Login:
         self.label = Label(self.loginWindow, text = "Login")
         self.label.place(x=95, y=40)
 
-        # zmienne narazie potrzebne
-        self.usernameS = StringVar()
-        self.passwordS = StringVar()
-        self.usernameE = Entry (
-            self.loginWindow, relief=FLAT, textvariable=self.usernameS)
-        self.usernameE.place(x=70, y=80)
-        self.passwordE = Entry (
-            self.loginWindow, show="*", relief=FLAT, textvariable=self.passwordS)
-        self.passwordE.place(x=70, y=120)
-
-        #faktyczne zmienne
-        self.username = self.usernameS.get()
-        self.password = self.passwordS.get()
-        self.submit = Button(self.loginWindow, text="Submit",pady = 5, padx =20, command=self.validate)
+        # zmienne puste potrzebne
+        global usernameS
+        global passwordS
+        usernameS = StringVar()
+        passwordS = StringVar()
+        #pola do pisania i guzik do commita
+        usernameE = Entry (self.loginWindow, relief=FLAT, textvariable=usernameS)
+        usernameE.place(x=70, y=80)
+        passwordE = Entry (self.loginWindow, show="*", relief=FLAT, textvariable=passwordS)
+        passwordE.place(x=70, y=120)
+        self.submit = Button(self.loginWindow, text="Submit",pady = 5, padx =20, command=self.commit)
         self.submit.place(x=100, y=150)
-    
+
+    def commit(self):
+        #zbieranie zmiennych po nacisnieciu guzika i wysylanie ich do bazy danych
+        global username
+        global password
+        username = usernameS.get()
+        password = passwordS.get()
+        self.validate()
+
     #uwierzytelnianie
     def validate(self):
-        data=(self.username,)
-        inputData = (self.username,self.password,)
+        data=(username,)
+        inputData = (username,password,)
         try:
             if (db.validateData(data, inputData)):
                 messagebox.showinfo ("Successful", "Login was Successful")
                 self.quit()
-                mainwindow()
-                
+                mainwindow()    
             else:
-                messagebox.showinfo ("Unsuccessful", "Login was Unsuccessful")
+                messagebox.showinfo ("Unsuccessful", "Login was Unsuccessful, wrong password")
         except IndexError:
             messagebox.showinfo ("Unsuccessful", "Login was Unsuccessful")
 
@@ -58,6 +62,5 @@ class Login:
 def mainwindow():
     mainwindowTk = MainWindow()
     mainwindowTk.run()
-
-        
+  
      

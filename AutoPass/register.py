@@ -22,7 +22,7 @@ class Register:
         global passwordS
         usernameS = StringVar()
         passwordS = StringVar()
-        #pola do pisania i guzik do wyslania zmiennych
+        #pola do pisania i guzik commita
         usernameE = Entry ( self.registerWindow, relief=FLAT, textvariable= usernameS)
         usernameE.place(x=70, y=80)
         passwordE = Entry ( self.registerWindow, show="*", relief=FLAT, textvariable= passwordS)
@@ -36,7 +36,7 @@ class Register:
         global password
         username = usernameS.get()
         password = passwordS.get()
-        #print(username,password)
+        #hashowanie hasła, żeby nie było widoczne w bazie danych
         salt = bcrypt.gensalt()
         global hashed
         hashed = bcrypt.hashpw(password.encode(), salt)
@@ -66,6 +66,3 @@ class Register:
 def mainwindow():
     mainwindowTk = MainWindow()
     mainwindowTk.run()
-"""
-mw = Register()
-mw.run()"""
