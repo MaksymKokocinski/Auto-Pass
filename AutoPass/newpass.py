@@ -25,7 +25,7 @@ class NewPass:
         usernameE.place(x=70, y=80)
         self.label = Label(self.newpassWindow, text="Password :")
         self.label.place(x=70, y=100)
-        passwordE = Entry ( self.newpassWindow, show="*", relief=FLAT, textvariable= passS)
+        passwordE = Entry ( self.newpassWindow, relief=FLAT, textvariable= passS)
         passwordE.place(x=70, y=120)
         #guziki
         self.submit = Button(self.newpassWindow,text ="Submit", pady =5, padx = 20, command=self.commit)
