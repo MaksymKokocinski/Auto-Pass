@@ -1,6 +1,8 @@
 import sys
 from tkinter import Button, Label, Tk, Listbox
 from tkinter import messagebox
+from newpass import NewPass
+
 """
 Stworzyc generator i sprawic zeby hasla sie zapisywale, ogarnac co nie dziala i baze danych
 """
@@ -14,7 +16,7 @@ class MainWindow():
         self.label = Label(self.mw, text="Welcome to main menu")
         self.label.place(x=125, y=20)
 
-        self.login = Button(self.mw, text="NewPassword",pady=5,padx=30, command = newpass)
+        self.login = Button(self.mw, text="NewPassword",pady=5,padx=30, command = self.runnewpass)
         self.login.place(x=50, y=90)
         self.login = Button(self.mw, text="Show/hide",pady=5,padx=30, command = showhide)
         self.login.place(x=225, y=90)
@@ -43,16 +45,21 @@ class MainWindow():
         self.listbox2.pack()
         self.listbox2.place(x=225, y=140)
 
+    def runnewpass(self):
+        #messagebox.showinfo("newpass","NewPassword will be generated here") 
+        newpass()
 
     #odpalanie okienka
     def run(self):
         self.mw.mainloop()
 #funkcja w ktorej bd generowane nowe haslo
 def newpass():
-    messagebox.showinfo("NewPassword","New password will be generated here")
+    newpassTk = NewPass()
+    newpassTk.run()
 
 def info():
-    messagebox.showinfo("Info","Info")    
+    messagebox.showinfo("Info","Info")
+
 def showhide():
     messagebox.showinfo("showhide","showhide") 
 #zamykanie programu
