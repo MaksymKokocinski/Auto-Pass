@@ -2,7 +2,8 @@ import random
 import bcrypt
 from tkinter import Button, Label, Tk, Entry, StringVar, FLAT, messagebox
 from database import Database
-# zrobic ze imput musi byc do kazdego hasla z tytulem do czego ono jest
+db = Database()
+db.createTable()
 
 class NewPass:
     def __init__(self):
@@ -30,11 +31,11 @@ class NewPass:
         #guziki
         self.submit = Button(self.newpassWindow,text ="Submit", pady =5, padx = 20, command=self.commit)
         self.submit.place(x=100, y=150)
-        self.submit = Button(self.newpassWindow,text ="Generate", pady =5, padx = 5, command=self.generate)
-        self.submit.place(x=210, y=110)
+        self.submit2 = Button(self.newpassWindow,text ="Generate", pady =5, padx = 5, command=self.generate)
+        self.submit2.place(x=210, y=110)
     
 
-    #funkcja do przechowywania hasla w schowku
+    #funkcja do przechowywania hasla w schowku przez 500 sekund
     def generate(self):
         self.randompass()
         self.temp = Tk()
@@ -49,11 +50,23 @@ class NewPass:
         #zbieranie zmiennych po nacisnieciu guzika i wysylanie ich do bazy danych
         global platform
         global password
+        #print("1",platS.get(),passS.get())
         platform = platS.get()
         password = passS.get()
-        print("pass, plat:",password,platform)
-        self.quit()
+        print("pass, plat:",password,platform)#nie dziala jak sie odpala z poza tej strony
+        self.add()
 
+    def add(self):
+        data = (platform,)
+        result = db.searchData2(data)
+        if result != 0:
+            data = (platform,password)
+            db.insertData2(data)
+            messagebox.showinfo("Successful", "Platform Was Added")
+            self.quit()
+              
+        else:
+            messagebox.showwarning("Warning", "Platform already Exists, try again")
 
     #odpalanie
     def run(self):
@@ -98,6 +111,6 @@ class NewPass:
 
 
 
-
-"""mw = NewPass()
+"""
+mw = NewPass()
 mw.run()"""

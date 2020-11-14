@@ -36,6 +36,7 @@ class Register:
         global password
         username = usernameS.get()
         password = passwordS.get()
+        print("user,pass:",username,password)
         #hashowanie hasła, żeby nie było widoczne w bazie danych
         salt = bcrypt.gensalt()
         global hashed

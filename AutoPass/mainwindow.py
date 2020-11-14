@@ -52,6 +52,7 @@ class MainWindow():
     #odpalanie okienka
     def run(self):
         self.mw.mainloop()
+        
 #funkcja w ktorej bd generowane nowe haslo
 def newpass():
     newpassTk = NewPass()
