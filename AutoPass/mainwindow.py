@@ -75,5 +75,4 @@ def logout():
 
 #testowe otwieranie glownego okna
 """mw = MainWindow()
-mw.run()
-"""
+mw.run()"""
