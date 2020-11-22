@@ -1,4 +1,4 @@
-# Automated Password Manager with GUI
+# Automated Password Manager
 
 * Build with GUI
 * Has a login system
