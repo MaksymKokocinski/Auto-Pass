@@ -47,8 +47,8 @@ class Database:
         validate_data = """
         SELECT * FROM accounts WHERE username = (?);
         """
-        print("data:",data)
-        print("input data:",inputData)
+        print("dataDB:",data)
+        print("input dataDB:",inputData)
         self.curr.execute(validate_data, data)
         row = self.curr.fetchall()
         print("row",row)
@@ -108,7 +108,7 @@ class Database2:
             return 1
         else:
             return 0
-    def validateData(self, data, inputData):
+    '''def validateData(self, data, inputData):
         #uwierzytelnianie danych przed zalogowaniem do main window
 
         validate_data = """
@@ -120,9 +120,26 @@ class Database2:
         print("cos tam",row[0][1])
         print("cos tam 2:",inputData[0])
         if row[0][1] == inputData[0]:
-            return row[0][2] == bcrypt.hashpw(inputData[1].encode(), row[0][2])
-                       
-    def userMaker(self):
+            return row[0][2] == bcrypt.hashpw(inputData[1].encode(), row[0][2])'''
+    
+    def readData(self):
+
+        read_data = """
+        SELECT platform, password FROM userdata;
+        """
+        self.curr.execute(read_data)
+        global count
+        count = 0
+        global inputData
+        inputData = ()
+        print("before:",inputData)
+        for row in self.curr.fetchall():
+            count = count + 1
+            inputData += row[0],row[1],count
+            
+        print ("in:",inputData)
+
+    '''def userMaker(self):
         self.curr.execute("SELECT count(id) FROM userdata")
         datanumber = self.curr.fetchall()
         #print("datanumber:",datanumber[0])
@@ -130,8 +147,10 @@ class Database2:
         if str(datanumber[0]) =="(0,)":
             usernumber = 0
         else:
-            usernumber = 1
+            usernumber = 1'''
         
+
+
 
 
         

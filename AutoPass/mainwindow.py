@@ -35,8 +35,10 @@ class MainWindow:
         self.my_tree.heading("Platform", text = "Platform",anchor = W)
         self.my_tree.heading("Password", text="Password", anchor = W)
         # Chwilowa Data
+        yt = "toufu"
+        pizza = "peperoni"
         data =[
-            ["Youtube","Peperroni"],
+            [yt,pizza],
             ["Twitch","Julkakulka1"],
             ["Facebook","Potato"],
             ["Microsoft","Lolik"],
@@ -85,7 +87,7 @@ class MainWindow:
         self.logout = Button(self.mw, text="Log out",pady=5,padx=10,command=logout)
         self.logout.place(x=40, y=450)
 
-    def add_record(self):#poki co dziala i dodaje ale jeszcze nie hashuje hasel
+    def add_record(self):#poki co dziala i dodaje do bazy danych
         global count
         self.my_tree.insert(parent='', index='end', iid=count, text="", values=(self.platform_box.get(),self.password_box.get()))
         count += 1
@@ -147,7 +149,11 @@ class MainWindow:
         pyperclip.paste()
 
     def info(self):
-        messagebox.showinfo("Info","Info")
+        db.readData()
+        #print("out:",db.list())
+
+
+        #messagebox.showinfo("Info","Info")
         
     def run(self):
         self.mw.mainloop()
@@ -183,5 +189,5 @@ def logout():
     messagebox.showinfo("Logging out","Logged out")
     sys.exit()
     
-"""mw = MainWindow()
-mw.run()"""
+mw = MainWindow()
+mw.run()

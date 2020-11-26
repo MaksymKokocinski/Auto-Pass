@@ -43,6 +43,9 @@ class Login:
         inputData = (username,password,)
         try:
             if (db.validateData(data, inputData)):
+                #print("inputData",inputData)
+                #print('data',data)
+                #print(db.validateData(data, inputData))
                 messagebox.showinfo ("Successful", "Login was Successful")
                 self.quit()
                 mainwindow()    
