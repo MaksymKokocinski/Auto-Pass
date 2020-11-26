@@ -53,8 +53,6 @@ class Database:
         row = self.curr.fetchall()
         print("row",row)
         self.userMaker()
-        #print("cos tam",row[0][1])
-        #print("cos tam 2:",inputData[0])
         if row[0][1] == inputData[0]:
             return row[0][2] == bcrypt.hashpw(inputData[1].encode(), row[0][2])#tutaj encoduje
                        
@@ -123,7 +121,6 @@ class Database2:
             return row[0][2] == bcrypt.hashpw(inputData[1].encode(), row[0][2])'''
     
     def readData(self):
-
         read_data = """
         SELECT platform, password FROM userdata;
         """
@@ -131,13 +128,12 @@ class Database2:
         global count
         count = 0
         global inputData
-        inputData = ()
-        print("before:",inputData)
+        inputData = []
         for row in self.curr.fetchall():
             count = count + 1
             inputData += row[0],row[1],count
             
-        print ("in:",inputData)
+        return inputData
 
     '''def userMaker(self):
         self.curr.execute("SELECT count(id) FROM userdata")

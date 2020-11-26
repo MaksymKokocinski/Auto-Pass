@@ -149,10 +149,8 @@ class MainWindow:
         pyperclip.paste()
 
     def info(self):
-        db.readData()
-        #print("out:",db.list())
-
-
+        data = db.readData()
+        print("data:",data)
         #messagebox.showinfo("Info","Info")
         
     def run(self):
