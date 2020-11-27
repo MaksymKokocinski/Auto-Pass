@@ -35,20 +35,23 @@ class MainWindow:
         self.my_tree.heading("Platform", text = "Platform",anchor = W)
         self.my_tree.heading("Password", text="Password", anchor = W)
         # Chwilowa Data
-        yt = "toufu"
-        pizza = "peperoni"
-        data =[
-            [yt,pizza],
-            ["Twitch","Julkakulka1"],
-            ["Facebook","Potato"],
-            ["Microsoft","Lolik"],
-            ["Skype","Max1"]
-        ]
+
+        data =db.readData()
+        #print('1 and 2:',data[0],data[1])
+        #print(len(data))
+
         global count
         count = 0
-        for record in data:
-            self.my_tree.insert(parent='', index='end', iid=count, text="", values=(record[0],record[1]))
+        global count2
+        count2 = 0
+        while count2 < int(len(data)):
+            self.my_tree.insert(parent='', index='end', iid=count, text="", values=(data[count2],data[count2 +1]))
+            count2 += 2
             count += 1
+
+        '''for record in data:# ta petla to problem !!!!!!
+            self.my_tree.insert(parent='', index='end', iid=count, text="", values=(record[0],record[1]))
+            count += 1'''
 
         self.add_frame =Frame (self.mw)
         self.add_frame.place(x=200, y=60)
@@ -148,10 +151,9 @@ class MainWindow:
         pyperclip.copy(generatedpassword)
         pyperclip.paste()
 
-    def info(self):
-        data = db.readData()
-        print("data:",data)
-        #messagebox.showinfo("Info","Info")
+    def info(self):# chwilowe wyswietlanie bazy danych na klikniecie
+        
+        messagebox.showinfo("Info","Info")
         
     def run(self):
         self.mw.mainloop()
