@@ -124,15 +124,20 @@ class Database2:
         read_data = """
         SELECT platform, password FROM userdata;
         """
+        
         self.curr.execute(read_data)
         global count
         count = 0
         global inputData
         inputData = []
         for row in self.curr.fetchall():
-            count = count + 1
-            inputData += row[0],row[1],count
-            
+            #count = count + 1
+            #global rows
+            #rows = []
+            #rows == bcrypt.hashpw(row[1].encode(), rows)
+            #print(rows)
+            inputData += row[0],row[1]
+        print('inputdata:',inputData)    
         return inputData
 
     '''def userMaker(self):
