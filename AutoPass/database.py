@@ -124,7 +124,6 @@ class Database2:
         read_data = """
         SELECT platform, password FROM userdata;
         """
-        
         self.curr.execute(read_data)
         global count
         count = 0
@@ -137,7 +136,7 @@ class Database2:
             #rows == bcrypt.hashpw(row[1].encode(), rows)
             #print(rows)
             inputData += row[0],row[1]
-        print('inputdata:',inputData)    
+        #print('inputdata:',inputData)    
         return inputData
 
     '''def userMaker(self):

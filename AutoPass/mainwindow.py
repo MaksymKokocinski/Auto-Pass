@@ -49,10 +49,6 @@ class MainWindow:
             count2 += 2
             count += 1
 
-        '''for record in data:# ta petla to problem !!!!!!
-            self.my_tree.insert(parent='', index='end', iid=count, text="", values=(record[0],record[1]))
-            count += 1'''
-
         self.add_frame =Frame (self.mw)
         self.add_frame.place(x=200, y=60)
 
@@ -97,14 +93,15 @@ class MainWindow:
 
         addplatform=self.platform_box.get()
         addpassword=self.password_box.get()
-        salt = bcrypt.gensalt()
-        global hashed
-        hashed = bcrypt.hashpw(addpassword.encode(), salt)
+        #hashowanie hasel chwilowo wylaczone 
+        #salt = bcrypt.gensalt()
+        #global hashed
+        #hashed = bcrypt.hashpw(addpassword.encode(), salt)
 
         data = (addplatform,)
         result = db.searchData(data)
         if result != 0:
-            data = (addplatform,hashed)
+            data = (addplatform,addpassword)
             db.insertData(data)
             messagebox.showinfo("Successful", "Platform and Password Was Added") 
         else:
@@ -112,19 +109,23 @@ class MainWindow:
         self.platform_box.delete(0, END)
         self.password_box.delete(0, END)
 
+    #przerobic na usuwanie calej bazy danych z guzikiem czy na pewno
     def remove_all(self):
         for record in self.my_tree.get_children():
             self.my_tree.delete(record)
 
+    #dokonczyc
     def remove_one(self):
         self.x = self.my_tree.selection()[0]
         self.my_tree.delete(self.x)
 
+    #niepotrzebne raczej, usunac
     def remove_many(self):
         x = self.my_tree.selection()
         for record in x:
             self.my_tree.delete(record)
 
+    #przerobic zeby dzialalo z baza danych
     def select_record(self):
         #czyszczenie przed wybraniem
         self.platform_box.delete(0, END)
@@ -151,7 +152,7 @@ class MainWindow:
         pyperclip.copy(generatedpassword)
         pyperclip.paste()
 
-    def info(self):# chwilowe wyswietlanie bazy danych na klikniecie
+    def info(self):
         
         messagebox.showinfo("Info","Info")
         
@@ -189,5 +190,5 @@ def logout():
     messagebox.showinfo("Logging out","Logged out")
     sys.exit()
     
-mw = MainWindow()
-mw.run()
+'''mw = MainWindow()
+mw.run()'''
