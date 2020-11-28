@@ -4,6 +4,7 @@
 * Has a login system
 * Has it own sqllite3 database
 * Passwords are hashed
+* It is still in development
 
 # How to run
 1. Donwload AutoPass folder
