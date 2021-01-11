@@ -37,8 +37,6 @@ class MainWindow:
         # Chwilowa Data
 
         data =db.readData()
-        #print('1 and 2:',data[0],data[1])
-        #print(len(data))
 
         global count
         count = 0
@@ -68,39 +66,33 @@ class MainWindow:
         #Guziki
         self.infobutton = Button(self.mw, text="Info",pady=5,padx=12,command=self.info)
         self.infobutton.place(x=420, y=20)
-        self.add = Button(self.mw, text="Add One Password",pady=5,padx=22,command=self.add_record)
+        self.add = Button(self.mw, text="Add Password",pady=5,padx=22,command=self.add_record)
         self.add.place(x=40, y=80)
         self.generatekey = Button(self.mw, text="Generate Password",pady=5,padx=22,command=self.generate)
         self.generatekey.place(x=40, y=120)
-        self.select = Button(self.mw, text="Select One Password",pady=5,padx=16,command=self.select_record)
+        self.select = Button(self.mw, text="Select Password",pady=5,padx=16,command=self.select_record)
         self.select.place(x=40, y=160)
-        self.update = Button(self.mw, text="Save One Password",pady=5,padx=20,command=self.update_record)
+        self.update = Button(self.mw, text="Save Password",pady=5,padx=20,command=self.update_record)
         self.update.place(x=40, y=200)
-        self.removeone = Button(self.mw, text="Remove One Selected",pady=5,padx=14,command=self.remove_one)
+        self.removeone = Button(self.mw, text="Remove Selected",pady=5,padx=14,command=self.remove_one)
         self.removeone.place(x=40, y=240)
-        self.removemany = Button(self.mw, text="Remove Many Selected",pady=5,padx=10,command=self.remove_many)
-        self.removemany.place(x=40, y=280)
-        self.removeall = Button(self.mw, text="Remove All Passwords",pady=5,padx=12,command=self.remove_all)
+        self.removeall = Button(self.mw, text="Remove All ",pady=5,padx=12,command=self.remove_all)
         self.removeall.place(x=40, y=320)
 
         self.logout = Button(self.mw, text="Log out",pady=5,padx=10,command=logout)
         self.logout.place(x=40, y=450)
 
-    def add_record(self):#poki co dziala i dodaje do bazy danych
-        global count
-        self.my_tree.insert(parent='', index='end', iid=count, text="", values=(self.platform_box.get(),self.password_box.get()))
-        count += 1
-
+    def add_record(self):
         addplatform=self.platform_box.get()
         addpassword=self.password_box.get()
-        #hashowanie hasel chwilowo wylaczone 
-        #salt = bcrypt.gensalt()
-        #global hashed
-        #hashed = bcrypt.hashpw(addpassword.encode(), salt)
 
         data = (addplatform,)
         result = db.searchData(data)
         if result != 0:
+            global count
+            self.my_tree.insert(parent='', index='end', iid=count, text="", values=(self.platform_box.get(),self.password_box.get()))
+            count += 1
+            
             data = (addplatform,addpassword)
             db.insertData(data)
             messagebox.showinfo("Successful", "Platform and Password Was Added") 
@@ -116,16 +108,20 @@ class MainWindow:
 
     #dokonczyc
     def remove_one(self):
+        '''zmienic zeby usuwalo po nazwie platformy a nie po id'''
+        #usuwanie z tree
+        print(self.my_tree.selection())
         self.x = self.my_tree.selection()[0]
         self.my_tree.delete(self.x)
+        #usuwanie z bd
+        for item in self.my_tree.selection():
+            item_text = self.my_tree.item(item,"text")
+            print(item_text)
 
-    #niepotrzebne raczej, usunac
-    def remove_many(self):
-        x = self.my_tree.selection()
-        for record in x:
-            self.my_tree.delete(record)
+        data = (self.x ,)
+        print('self.x',self.x)
+        #db.deleteData(data)
 
-    #przerobic zeby dzialalo z baza danych
     def select_record(self):
         #czyszczenie przed wybraniem
         self.platform_box.delete(0, END)
@@ -137,12 +133,29 @@ class MainWindow:
         #output do entryboxow
         self.platform_box.insert(0, self.values[0])
         self.password_box.insert(0, self.values[1])
+        global selectedplatform
+        selectedplatform = self.platform_box.get()
+        #print('selectedplatform',selectedplatform)
 
     def update_record(self):
         #wybor linii
         selected = self.my_tree.focus()
-        #zapisywanie
-        self.my_tree.item(selected, text = "", values = (self.platform_box.get(),self.password_box.get()))
+
+        updateplatform=self.platform_box.get()
+        updatepassword=self.password_box.get()
+
+        data = (updateplatform,)
+        result = db.searchData(data)
+        if result != 0:
+            #zapisywanie
+            self.my_tree.item(selected, text = "", values = (self.platform_box.get(),self.password_box.get()))
+
+            data = (updateplatform,updatepassword,selectedplatform)
+            db.updateData(data)
+            messagebox.showinfo("Successful", "Platform and Password Was Updated") 
+        else:
+            messagebox.showwarning("Warning", "Platform already Exists, try again")
+
         #czyszczenie po
         self.platform_box.delete(0, END)
         self.password_box.delete(0, END)
@@ -190,5 +203,5 @@ def logout():
     messagebox.showinfo("Logging out","Logged out")
     sys.exit()
     
-'''mw = MainWindow()
-mw.run()'''
+mw = MainWindow()
+mw.run()
