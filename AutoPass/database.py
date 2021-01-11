@@ -5,11 +5,11 @@ class Database:
     def __init__(self):
         #lokalizacja bazy danych i kursor do bazy danych
         try:
-            self.conn = sqlite3.connect("ProPython/AutomationProjects/AutoPass/AutoPassDatabase.db")
+            self.conn = sqlite3.connect("AutomationProjects/AutoPass/AutoPassDatabase.db")
             #print("Successfully Opened Database")
             self.curr = self.conn.cursor()
         except:
-            print("Failed")
+            print("Failed 1")
     
     def createTable(self):
         #tworzenie tabeli z loginami w bazie danych
@@ -47,11 +47,11 @@ class Database:
         validate_data = """
         SELECT * FROM accounts WHERE username = (?);
         """
-        print("dataDB:",data)
-        print("input dataDB:",inputData)
+        #print("dataDB:",data)
+        #print("input dataDB:",inputData)
         self.curr.execute(validate_data, data)
         row = self.curr.fetchall()
-        print("row",row)
+        #print("row",row)
         self.userMaker()
         if row[0][1] == inputData[0]:
             return row[0][2] == bcrypt.hashpw(inputData[1].encode(), row[0][2])#tutaj encoduje
@@ -71,11 +71,11 @@ class Database2:
     def __init__(self):
         #lokalizacja bazy danych i kursor do bazy danych
         try:
-            self.conn = sqlite3.connect("ProPython/AutomationProjects/AutoPass/AutoPassDatabase.db")
-            #print("Successfully Opened Database")
+            self.conn = sqlite3.connect("AutomationProjects/AutoPass/AutoPassDatabase.db")
+            #print("Successfully Opened Database2")
             self.curr = self.conn.cursor()
         except:
-            print("Failed")
+            print("Failed 2")
     
     def createTable(self):
         #tworzenie tabeli z loginami w bazie danych
@@ -106,19 +106,6 @@ class Database2:
             return 1
         else:
             return 0
-    '''def validateData(self, data, inputData):
-        #uwierzytelnianie danych przed zalogowaniem do main window
-
-        validate_data = """
-        SELECT * FROM userdata WHERE platform = (?);
-        """
-        self.curr.execute(validate_data, data)
-        row = self.curr.fetchall()
-        
-        print("cos tam",row[0][1])
-        print("cos tam 2:",inputData[0])
-        if row[0][1] == inputData[0]:
-            return row[0][2] == bcrypt.hashpw(inputData[1].encode(), row[0][2])'''
     
     def readData(self):
         read_data = """
@@ -130,26 +117,23 @@ class Database2:
         global inputData
         inputData = []
         for row in self.curr.fetchall():
-            #count = count + 1
-            #global rows
-            #rows = []
-            #rows == bcrypt.hashpw(row[1].encode(), rows)
-            #print(rows)
             inputData += row[0],row[1]
-        #print('inputdata:',inputData)    
         return inputData
 
-    '''def userMaker(self):
-        self.curr.execute("SELECT count(id) FROM userdata")
-        datanumber = self.curr.fetchall()
-        #print("datanumber:",datanumber[0])
-        global usernumber
-        if str(datanumber[0]) =="(0,)":
-            usernumber = 0
-        else:
-            usernumber = 1'''
-        
+    def updateData(self,data):
+        #wprowadzanie danych do bazy danych
+        update_data= """
+        UPDATE userdata SET platform = ?, password = ? WHERE platform = ?;
+        """
+        self.curr.execute(update_data, data)
+        self.conn.commit()
 
+    def deleteData(self,data):
+        delete_data = """
+        DELETE FROM userdata WHERE platform = ?;
+        """
+        self.curr.execute(delete_data, data)
+        self.conn.commit()
 
 
 
