@@ -134,7 +134,19 @@ class Database2:
         """
         self.curr.execute(delete_data, data)
         self.conn.commit()
-
+    
+    def deleteAcc(self):
+        deleteUser = """
+        DELETE FROM accounts
+        """
+        self.curr.execute(deleteUser)
+        self.conn.commit()
+    def DeletePass(self):
+        deletePasswords = """
+        DELETE FROM userdata
+        """
+        self.curr.execute(deletePasswords)
+        self.conn.commit()
 
 
         

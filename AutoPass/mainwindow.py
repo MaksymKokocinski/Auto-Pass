@@ -37,7 +37,8 @@ class MainWindow:
         # Chwilowa Data
 
         data =db.readData()
-
+        global isselected
+        isselected = False
         global count
         count = 0
         global count2
@@ -72,7 +73,7 @@ class MainWindow:
         self.generatekey.place(x=40, y=120)
         self.select = Button(self.mw, text="Select Password",pady=5,padx=16,command=self.select_record)
         self.select.place(x=40, y=160)
-        self.update = Button(self.mw, text="Save Password",pady=5,padx=20,command=self.update_record)
+        self.update = Button(self.mw, text="Save Selected",pady=5,padx=20,command=self.update_record)
         self.update.place(x=40, y=200)
         self.removeone = Button(self.mw, text="Remove Selected",pady=5,padx=14,command=self.remove_one)
         self.removeone.place(x=40, y=240)
@@ -103,24 +104,13 @@ class MainWindow:
 
     #przerobic na usuwanie calej bazy danych z guzikiem czy na pewno
     def remove_all(self):
-        for record in self.my_tree.get_children():
-            self.my_tree.delete(record)
+        #messagebox.showinfo("Deleting everything","Quit out")
+        db.DeletePass()
+        db.deleteAcc()
+        sys.exit()
+        
 
-    #dokonczyc
-    def remove_one(self):
-        '''zmienic zeby usuwalo po nazwie platformy a nie po id'''
-        #usuwanie z tree
-        print(self.my_tree.selection())
-        self.x = self.my_tree.selection()[0]
-        self.my_tree.delete(self.x)
-        #usuwanie z bd
-        for item in self.my_tree.selection():
-            item_text = self.my_tree.item(item,"text")
-            print(item_text)
 
-        data = (self.x ,)
-        print('self.x',self.x)
-        #db.deleteData(data)
 
     def select_record(self):
         #czyszczenie przed wybraniem
@@ -133,32 +123,60 @@ class MainWindow:
         #output do entryboxow
         self.platform_box.insert(0, self.values[0])
         self.password_box.insert(0, self.values[1])
+        #wysylanie której platformy ma dana operacja użyć
         global selectedplatform
         selectedplatform = self.platform_box.get()
         #print('selectedplatform',selectedplatform)
+        global isselected
+        isselected = True
+
+    def unselect(self):
+        global isselected
+        isselected = False
+
+    def remove_one(self):
+        if isselected == True:
+            #usuwanie z treeview
+            self.x = self.my_tree.selection()[0]
+            self.my_tree.delete(self.x)
+            #usuwanie z db
+            data = (selectedplatform,)
+            db.deleteData(data)
+            #czyszczenie po
+            self.platform_box.delete(0, END)
+            self.password_box.delete(0, END)
+            #changing select status back
+            self.unselect()
+        else:    
+                messagebox.showinfo("Error","You need to select platform and password to delete it.")
 
     def update_record(self):
-        #wybor linii
-        selected = self.my_tree.focus()
+        if isselected == True:
+            #wybor linii
+            selected = self.my_tree.focus()
 
-        updateplatform=self.platform_box.get()
-        updatepassword=self.password_box.get()
+            updateplatform=self.platform_box.get()
+            updatepassword=self.password_box.get()
 
-        data = (updateplatform,)
-        result = db.searchData(data)
-        if result != 0:
-            #zapisywanie
-            self.my_tree.item(selected, text = "", values = (self.platform_box.get(),self.password_box.get()))
+            data = (updateplatform,)
+            result = db.searchData(data)
+            if result != 0:
+                #zapisywanie
+                self.my_tree.item(selected, text = "", values = (self.platform_box.get(),self.password_box.get()))
 
-            data = (updateplatform,updatepassword,selectedplatform)
-            db.updateData(data)
-            messagebox.showinfo("Successful", "Platform and Password Was Updated") 
+                data = (updateplatform,updatepassword,selectedplatform)
+                db.updateData(data)
+                messagebox.showinfo("Successful", "Platform and Password Was Updated") 
+                #changing select status back
+                self.unselect()
+            else:
+                messagebox.showwarning("Warning", "Platform already Exists, try again")
+
+            #czyszczenie po
+            self.platform_box.delete(0, END)
+            self.password_box.delete(0, END)
         else:
-            messagebox.showwarning("Warning", "Platform already Exists, try again")
-
-        #czyszczenie po
-        self.platform_box.delete(0, END)
-        self.password_box.delete(0, END)
+            messagebox.showinfo("Error","You need to select platform and password to update it.")
 
     def generate(self):
         self.randompass()
@@ -203,5 +221,5 @@ def logout():
     messagebox.showinfo("Logging out","Logged out")
     sys.exit()
     
-mw = MainWindow()
-mw.run()
+"""mw = MainWindow()
+mw.run()"""
