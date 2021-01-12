@@ -89,7 +89,7 @@ class MainWindow:
 
         data = (addplatform,)
         result = db.searchData(data)
-        if result != 0:
+        if result != 0 and addplatform != '':
             global count
             self.my_tree.insert(parent='', index='end', iid=count, text="", values=(self.platform_box.get(),self.password_box.get()))
             count += 1
@@ -102,15 +102,15 @@ class MainWindow:
         self.platform_box.delete(0, END)
         self.password_box.delete(0, END)
 
-    #przerobic na usuwanie calej bazy danych z guzikiem czy na pewno
+    #usuwanie całej bazy danych
     def remove_all(self):
-        #messagebox.showinfo("Deleting everything","Quit out")
-        db.DeletePass()
-        db.deleteAcc()
-        sys.exit()
+        #guzik pytający czy na pewno 
+        self.response = messagebox.askokcancel(title='Delete all', message='Do you want to delete account and all passwords stored?')
+        if self.response == True:
+            db.DeletePass()
+            db.deleteAcc()
+            sys.exit()
         
-
-
 
     def select_record(self):
         #czyszczenie przed wybraniem
@@ -160,10 +160,9 @@ class MainWindow:
 
             data = (updateplatform,)
             result = db.searchData(data)
-            if result != 0:
+            if result != 0 and updateplatform != '':
                 #zapisywanie
                 self.my_tree.item(selected, text = "", values = (self.platform_box.get(),self.password_box.get()))
-
                 data = (updateplatform,updatepassword,selectedplatform)
                 db.updateData(data)
                 messagebox.showinfo("Successful", "Platform and Password Was Updated") 
@@ -221,5 +220,5 @@ def logout():
     messagebox.showinfo("Logging out","Logged out")
     sys.exit()
     
-"""mw = MainWindow()
-mw.run()"""
+mw = MainWindow()
+mw.run()

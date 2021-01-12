@@ -141,12 +141,13 @@ class Database2:
         """
         self.curr.execute(deleteUser)
         self.conn.commit()
+        print('deleted 1')
     def DeletePass(self):
         deletePasswords = """
         DELETE FROM userdata
         """
         self.curr.execute(deletePasswords)
         self.conn.commit()
-
+        print('deleted 2')
 
         
