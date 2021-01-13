@@ -3,8 +3,8 @@ from tkinter import Button, Label, Tk, Entry, StringVar, FLAT, messagebox
 from database import Database
 from mainwindow import MainWindow
 
-db = Database()
-db.createTable()
+
+#db.createTable()
 #dodac info gdzies i guzik cofnij
 class Login:
     def __init__(self):
@@ -35,17 +35,19 @@ class Login:
         global password
         username = usernameS.get()
         password = passwordS.get()
+        print('pass',password)
         self.validate()
 
     #uwierzytelnianie
     def validate(self):
+        db = Database(password)
         data=(username,)
         inputData = (username,password,)
         try:
             if (db.validateData(data, inputData)):
                 messagebox.showinfo ("Successful", "Login was Successful")
                 self.quit()
-                mainwindow()    
+                #mainwindow()    
             else:
                 messagebox.showinfo ("Unsuccessful", "Login was Unsuccessful, wrong password")
         except IndexError:

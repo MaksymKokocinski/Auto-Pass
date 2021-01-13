@@ -3,8 +3,6 @@ from tkinter import Button, Label, Tk, Entry, StringVar, FLAT, messagebox
 from database import Database
 from mainwindow import MainWindow
 
-db = Database()
-db.createTable()
 
 #dodac info gdzies i guzik cofnij
 
@@ -30,12 +28,20 @@ class Register:
         self.submit = Button(self.registerWindow,text ="Submit", pady =5, padx = 20, command=self.commit)
         self.submit.place(x=100, y=150)
 
+    #wysylanie hasla do 
+    def sendtodb(self):
+        #print('before DB',password)
+        db = Database(password)
+        db.createTable()
+
     def commit(self):
         #zbieranie zmiennych po nacisnieciu guzika i wysylanie ich do bazy danych
         global username
         global password
         username = usernameS.get()
         password = passwordS.get()
+        #wysylanie hasła do bazy danych
+        self.sendtodb() 
         print("user,pass:",username,password)
         #hashowanie hasła, żeby nie było widoczne w bazie danych
         salt = bcrypt.gensalt()
@@ -43,15 +49,9 @@ class Register:
         hashed = bcrypt.hashpw(password.encode(), salt)
         self.add()
 
-    #odpalanie sie rejestrowania
-    def run(self):
-        self.registerWindow.mainloop()
-    #zamykanie okna rejestracji
-    def quit(self):
-        self.registerWindow.destroy()
-
     #funckja dodawania nowych uzytkownikow do bazy danych
     def add(self):
+        db = Database(password)
         data = (username,)
         result = db.searchData(data)
         if result != 0:
@@ -59,9 +59,16 @@ class Register:
             db.insertData(data)
             messagebox.showinfo("Successful", "Username Was Added")
             self.quit()
-            mainwindow()  
+            #mainwindow()  
         else:
             messagebox.showwarning("Warning", "Username already Exists, try again")
+
+    #odpalanie sie rejestrowania
+    def run(self):
+        self.registerWindow.mainloop()
+    #zamykanie okna rejestracji
+    def quit(self):
+        self.registerWindow.destroy()
 
 #otwieranie nastepnego okna
 def mainwindow():

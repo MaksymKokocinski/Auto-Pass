@@ -220,5 +220,5 @@ def logout():
     messagebox.showinfo("Logging out","Logged out")
     sys.exit()
     
-mw = MainWindow()
-mw.run()
+'''mw = MainWindow()
+mw.run()'''

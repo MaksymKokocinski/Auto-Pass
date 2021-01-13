@@ -2,15 +2,30 @@ import sqlite3
 import bcrypt
 
 class Database:
-    def __init__(self):
+    def __init__(self,data):
+        #wszedzie gdzie otwieramy baze danych dac jakas wartosc
+        #i tylko przy tworzeniu dac jakas a reszte pusta
         #lokalizacja bazy danych i kursor do bazy danych
-        try:
-            self.conn = sqlite3.connect("AutomationProjects/AutoPass/AutoPassDatabase.db")
-            #print("Successfully Opened Database")
+        print('lol')
+        '''try:
+            self.conn = sqlite3.connect("AutomationProjects/AutoPass/AutoPassDatabase.db;Password=(?);")
+            print('connected with password')
             self.curr = self.conn.cursor()
+
         except:
-            print("Failed 1")
-    
+            print('failed another launch')'''
+        try:
+            self.conn = sqlite3.connect("AutomationProjects/AutoPass/AutoPassDatabase.db;Password = 'password'")
+            print("Successfully Opened Database first time")
+            
+            self.curr = self.conn.cursor()
+            print('cursor set')
+            self.conn.ChangePassword('password');
+            print('password set',data)
+            #tu jest error bo po probie ustwaienia hasla jest crash        
+        except:
+            print("Failed 1 launch")        
+        
     def createTable(self):
         #tworzenie tabeli z loginami w bazie danych
         create_table = """
@@ -55,7 +70,9 @@ class Database:
         self.userMaker()
         if row[0][1] == inputData[0]:
             return row[0][2] == bcrypt.hashpw(inputData[1].encode(), row[0][2])#tutaj encoduje
-                       
+
+
+
     def userMaker(self):
         self.curr.execute("SELECT count(id) FROM accounts")
         datanumber = self.curr.fetchall()
@@ -65,6 +82,7 @@ class Database:
             usernumber = 0
         else:
             usernumber = 1    
+
 ##################################################################################################
 
 class Database2:
