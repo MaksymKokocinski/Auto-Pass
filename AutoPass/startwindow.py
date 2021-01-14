@@ -11,11 +11,11 @@ class StartWindow:
         self.app = Tk()
         self.app.title("Login with Python")
         self.app.geometry("300x200")
-        self.label = Label(self.app, text="Welcome to App")
-        self.label.place(x=95, y=40)
+        self.label = Label(self.app, text="Welcome to Password Manager")
+        self.label.place(x=65, y=55)
         self.login = Button(self.app, text="Login",pady=5,padx=30,command = self.logandquit)
         self.login.place(x=100, y=100)
-        self.register = Button(self.app, text="Register",pady=5, padx=20,command=self.regandquit)
+        self.register = Button(self.app, text="Register",pady=5, padx=25,command=self.regandquit)
         self.register.place(x=100, y=150)
         self.info = Button(self.app, text="Info",pady=5,padx=20,command = self.info)
         self.info.place(x =220, y=10)
@@ -27,8 +27,10 @@ class StartWindow:
     #zamykanie okna 
     def quit(self):
         self.app.destroy() 
+    #okno z informacją co i jak
     def info(self):
-        messagebox.showinfo('info','info here will be')
+        self.message = "Hello, if it is your first use of the program you need to create an account using the button register!, Otherwise, you need to login, because there is a limit of 1 account per folder."
+        messagebox.showinfo('Info',self.message3)
 
     #zamykanie okna po wyskoczeniu okienka do logowania
     def logandquit(self):
@@ -45,13 +47,13 @@ class StartWindow:
         else:
             messagebox.showinfo("Error", "You can't register, there is an account already") 
 
+#funkcja ktora sprawdza, czy jest uzytkownik i mozna sie zalogowac czy 
 def whatoperation():
     global canlogin
     db = Database()
-    try:
-        db.userMaker()
+    if db.userMaker() == 1:
         canlogin = True
-    except:
+    else:
         canlogin = False
 
 #uruchamianie logowania sie

@@ -3,9 +3,6 @@ from tkinter import Button, Label, Tk, Entry, StringVar, FLAT, messagebox
 from database import Database
 from mainwindow import MainWindow
 
-
-#db.createTable()
-#dodac info gdzies i guzik cofnij
 class Login:
     def __init__(self):
 
@@ -13,8 +10,8 @@ class Login:
         self.loginWindow = Tk()
         self.loginWindow.title("Login with Python")
         self.loginWindow.geometry("300x250")
-        self.label = Label(self.loginWindow, text = "Login")
-        self.label.place(x=95, y=40)
+        self.label = Label(self.loginWindow, text = "Enter login and password for your account")
+        self.label.place(x=30, y=40)
 
         # zmienne puste potrzebne
         global usernameS
@@ -23,9 +20,9 @@ class Login:
         passwordS = StringVar()
         #pola do pisania i guzik do commita
         usernameE = Entry (self.loginWindow, relief=FLAT, textvariable=usernameS)
-        usernameE.place(x=70, y=80)
+        usernameE.place(x=85, y=80)
         passwordE = Entry (self.loginWindow, show="*", relief=FLAT, textvariable=passwordS)
-        passwordE.place(x=70, y=120)
+        passwordE.place(x=85, y=120)
         self.submit = Button(self.loginWindow, text="Submit",pady = 5, padx =20, command=self.commit)
         self.submit.place(x=100, y=150)
 
@@ -35,7 +32,7 @@ class Login:
         global password
         username = usernameS.get()
         password = passwordS.get()
-        print('pass',password)
+        #print('pass',password)
         self.validate()
 
     #uwierzytelnianie

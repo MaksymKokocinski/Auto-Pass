@@ -3,24 +3,14 @@ import bcrypt
 
 class Database:
     def __init__(self):
-        #wszedzie gdzie otwieramy baze danych dac jakas wartosc
-        #i tylko przy tworzeniu dac jakas a reszte pusta
-        #lokalizacja bazy danych i kursor do bazy danych
-        '''print('lol')'''
         try:
             self.conn = sqlite3.connect("AutomationProjects/AutoPass/AutoPassDatabase.db")
-            '''print("Successfully Opened Database")'''
-            self.curr = self.conn.cursor()
-            '''print('cursor fine')'''
-            
-            
+            self.curr = self.conn.cursor() 
         except:
             print("Failed 1")
- 
-
 
     def createTable(self):
-        #tworzenie tabeli z loginami w bazie danych
+        #tworzenie tabeli
         create_table = """
         CREATE TABLE IF NOT EXISTS accounts(
         id Integer PRIMARY KEY AUTOINCREMENT, username TEXT NOT NULL, password TEXT NOT NULL);
@@ -51,15 +41,11 @@ class Database:
             return 0
     def validateData(self, data, inputData):
         #uwierzytelnianie danych przed zalogowaniem do main window
-
         validate_data = """
         SELECT * FROM accounts WHERE username = (?);
         """
-        #print("dataDB:",data)
-        #print("input dataDB:",inputData)
         self.curr.execute(validate_data, data)
         row = self.curr.fetchall()
-        #print("row",row)
         self.userMaker()
         if row[0][1] == inputData[0]:
             return row[0][2] == bcrypt.hashpw(inputData[1].encode(), row[0][2])#tutaj encoduje
@@ -77,14 +63,11 @@ class Database:
             usernumber = 1    
             return usernumber
 
-##################################################################################################
-
 class Database2:
     def __init__(self):
         #lokalizacja bazy danych i kursor do bazy danych
         try:
             self.conn = sqlite3.connect("AutomationProjects/AutoPass/AutoPassDatabase.db")
-            #print("Successfully Opened Database2")
             self.curr = self.conn.cursor()
         except:
             print("Failed 2")
@@ -141,6 +124,7 @@ class Database2:
         self.conn.commit()
 
     def deleteData(self,data):
+        #usuwanie jednego elementu
         delete_data = """
         DELETE FROM userdata WHERE platform = ?;
         """
@@ -148,18 +132,18 @@ class Database2:
         self.conn.commit()
     
     def deleteAcc(self):
+        #usuwanie tabeli nr1
         deleteUser = """
         DELETE FROM accounts
         """
         self.curr.execute(deleteUser)
         self.conn.commit()
-        print('deleted 1')
     def DeletePass(self):
+        #usuwanie tebali nr 2
         deletePasswords = """
         DELETE FROM userdata
         """
         self.curr.execute(deletePasswords)
         self.conn.commit()
-        print('deleted 2')
 
         

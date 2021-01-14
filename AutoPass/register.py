@@ -3,17 +3,14 @@ from tkinter import Button, Label, Tk, Entry, StringVar, FLAT, messagebox
 from database import Database
 from mainwindow import MainWindow
 
-
-#dodac info gdzies i guzik cofnij
-
 class Register:
     def __init__(self):
         # wyglad okienka rejestrowania sie
         self.registerWindow = Tk()
         self.registerWindow.title("Register with Python")
         self.registerWindow.geometry("300x250")
-        self.label = Label(self.registerWindow, text = "Register")
-        self.label.place(x=95, y=40)
+        self.label = Label(self.registerWindow, text = "Enter login and password for your account")
+        self.label.place(x=30, y=40)
 
         # zmienne puste potrzebne
         global usernameS
@@ -22,13 +19,12 @@ class Register:
         passwordS = StringVar()
         #pola do pisania i guzik commita
         usernameE = Entry ( self.registerWindow, relief=FLAT, textvariable= usernameS)
-        usernameE.place(x=70, y=80)
+        usernameE.place(x=85, y=80)
         passwordE = Entry ( self.registerWindow, show="*", relief=FLAT, textvariable= passwordS)
-        passwordE.place(x=70, y=120)
+        passwordE.place(x=85, y=120)
         self.submit = Button(self.registerWindow,text ="Submit", pady =5, padx = 20, command=self.commit)
         self.submit.place(x=100, y=150)
 
-    #wysylanie hasla do 
     def sendtodb(self):
         #print('before DB',password)
         db = Database()
@@ -40,10 +36,8 @@ class Register:
         global password
         username = usernameS.get()
         password = passwordS.get()
-        #wysylanie hasła do bazy danych
         self.sendtodb() 
-        '''print("user,pass:",username,password)'''
-        #hashowanie hasła, żeby nie było widoczne w bazie danych
+        #hashowanie hasła
         salt = bcrypt.gensalt()
         global hashed
         hashed = bcrypt.hashpw(password.encode(), salt)
