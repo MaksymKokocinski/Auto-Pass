@@ -154,10 +154,8 @@ class MainWindow:
         if isselected == True:
             #wybor linii
             selected = self.my_tree.focus()
-
             updateplatform=self.platform_box.get()
             updatepassword=self.password_box.get()
-
             data = (updateplatform,)
             result = db.searchData(data)
             if result != 0 and updateplatform != '':
@@ -191,23 +189,15 @@ class MainWindow:
 
     def randompass(self):
         self.maxlen = 10
-
         self.digits = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']  
-
         self.smallchar = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h','i', 'j', 'k', 'm', 'n', 'o',
                     'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y','z'] 
-        
         self.bigchar = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H','I', 'J', 'K', 'M', 'N', 'O',
                 'p', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y','Z'] 
-        
         self.symb = ['@', '#', '$', '%', '=', ':', '?', '.', '/', '|', '~', '>',
                 '*', '(', ')', '<','&','#'] 
         #laczenie wszystkich znakow
         self.allchar= self.digits + self.smallchar + self.bigchar + self.symb
-        """randomdigit = random.choice(digits)
-        randomsmallchar = random.choice(smallchar)
-        randombigchar = random.choice(bigchar)
-        randomsymbol = random.choice(symb)"""
         #robienie sie hasla
         global generatedpassword
         generatedpassword = ""

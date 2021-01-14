@@ -40,14 +40,14 @@ class Login:
 
     #uwierzytelnianie
     def validate(self):
-        db = Database(password)
+        db = Database()
         data=(username,)
         inputData = (username,password,)
         try:
             if (db.validateData(data, inputData)):
                 messagebox.showinfo ("Successful", "Login was Successful")
                 self.quit()
-                #mainwindow()    
+                mainwindow()    
             else:
                 messagebox.showinfo ("Unsuccessful", "Login was Unsuccessful, wrong password")
         except IndexError:

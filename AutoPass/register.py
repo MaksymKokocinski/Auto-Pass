@@ -31,7 +31,7 @@ class Register:
     #wysylanie hasla do 
     def sendtodb(self):
         #print('before DB',password)
-        db = Database(password)
+        db = Database()
         db.createTable()
 
     def commit(self):
@@ -42,7 +42,7 @@ class Register:
         password = passwordS.get()
         #wysylanie hasła do bazy danych
         self.sendtodb() 
-        print("user,pass:",username,password)
+        '''print("user,pass:",username,password)'''
         #hashowanie hasła, żeby nie było widoczne w bazie danych
         salt = bcrypt.gensalt()
         global hashed
@@ -51,7 +51,7 @@ class Register:
 
     #funckja dodawania nowych uzytkownikow do bazy danych
     def add(self):
-        db = Database(password)
+        db = Database()
         data = (username,)
         result = db.searchData(data)
         if result != 0:
@@ -59,7 +59,7 @@ class Register:
             db.insertData(data)
             messagebox.showinfo("Successful", "Username Was Added")
             self.quit()
-            #mainwindow()  
+            mainwindow()  
         else:
             messagebox.showwarning("Warning", "Username already Exists, try again")
 
